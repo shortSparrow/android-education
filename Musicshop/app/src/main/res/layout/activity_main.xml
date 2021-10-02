@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:scaleType="centerCrop"
-            android:src="@mipmap/guitars" />
+            android:src="@drawable/guitars" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -56,11 +56,11 @@
         android:minHeight="48dp" />
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:id="@+id/instrumentImage"
+        android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:rotation="-90"
         android:scaleType="centerInside"
-        android:src="@mipmap/guitar" />
+        android:src="@drawable/guitar" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -85,12 +85,12 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <TextView
                     android:id="@+id/priceTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
+                    android:layout_centerInParent="true"
                     android:text="0 $"
                     android:textStyle="bold" />
             </RelativeLayout>
