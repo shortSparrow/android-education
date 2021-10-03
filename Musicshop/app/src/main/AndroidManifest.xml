@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicShop">
         <activity
+            android:label="Order"
+            android:name=".OrderActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

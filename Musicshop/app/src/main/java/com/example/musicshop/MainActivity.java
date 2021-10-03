@@ -2,14 +2,22 @@ package com.example.musicshop;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import org.json.JSONObject;
+
 import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     int quantity = 0;
@@ -19,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     HashMap goodsMap;
     String goodsName;
     double price;
+    EditText userNameEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         createSpinner();
         createGoodsList();
+
+        userNameEditText = findViewById(R.id.nameEditText);
     }
 
     void createSpinner() {
@@ -89,5 +100,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public void addToCart(View view) {
+        Order order = new Order();
+        order.userName = userNameEditText.getText().toString();
+        order.goodsName = goodsName;
+        order.quantity = quantity;
+        order.orderPrice = price;
+
+        Intent orderIntent = new Intent(MainActivity.this, OrderActivity.class);
+        orderIntent.putExtra("userName", order.userName);
+        orderIntent.putExtra("goodsName", order.goodsName);
+        orderIntent.putExtra("quantity", order.quantity);
+        orderIntent.putExtra("price", price);
+        orderIntent.putExtra("orderPrice", String.valueOf(quantity * price));
+
+        startActivity(orderIntent);
     }
 }
