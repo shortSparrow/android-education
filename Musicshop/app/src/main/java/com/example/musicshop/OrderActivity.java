@@ -51,8 +51,8 @@ public class OrderActivity extends AppCompatActivity {
     public void sendEmail(View view) {
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
-//        intent.setType("*/*"); // show all list available app
+//        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        intent.setType("*/*"); // show all list available app
         intent.putExtra(Intent.EXTRA_EMAIL, addresses);
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, totalOrderInfo);
