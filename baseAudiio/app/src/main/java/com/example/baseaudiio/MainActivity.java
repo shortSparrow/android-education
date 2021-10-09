@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -82,18 +81,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void increaseVolume(View view) {
-        volume_level += 0.1f;
-        setVolume();
+        // Оставляем только одну цифру после запятой, ибо 0.9 + 0.1 = 1.00001. Это не дает зайти в if
+        double volume_level_to_fixed = Math.floor((volume_level + 0.1f) * 10) / 10;
+
+        if (volume_level_to_fixed <= 1.0) {
+            volume_level += 0.1f;
+            setVolume();
+        }
     }
 
     public void decreaseVolume(View view) {
-        volume_level -= 0.1f;
-        setVolume();
+        if (volume_level - 0.1f >= 0.0) {
+            volume_level -= 0.1f;
+            setVolume();
+        }
     }
 
     public void setVolume() {
+        // Оставляем только одну цифру после запятой
         double showVolume = Math.floor(volume_level * 10) / 10;
-
         volume.setText(String.valueOf(showVolume));
         mediaPlayer.setVolume(volume_level, volume_level);
     }
