@@ -3,9 +3,7 @@ package com.example.musicplayer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -55,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
         songTitle = findViewById(R.id.song_title);
         playPauseImage = findViewById(R.id.play_pause);
         seekBar = findViewById(R.id.seekBar);
@@ -67,12 +64,12 @@ public class MainActivity extends AppCompatActivity {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if (!startSeek) {
+                if (!startSeek && mediaPlayer.isPlaying()) {
                     int progressTrack = mediaPlayer.getCurrentPosition();
                     seekBar.setProgress(progressTrack);
                 }
             }
-        }, 0, 100);
+        }, 0, 600);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -119,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     public void selectTrack() {
         if (mediaPlayer.isPlaying()) {
             changeTrack();
@@ -134,7 +130,5 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer = MediaPlayer.create(this, (Integer) trackList[currentPlayIndex].get("file"));
         seekBar.setMax(mediaPlayer.getDuration());
         songTitle.setText((String) trackList[currentPlayIndex].get("title"));
-
-        Log.d("songTitle: ", mediaPlayer.getTrackInfo().toString());
     }
 }
