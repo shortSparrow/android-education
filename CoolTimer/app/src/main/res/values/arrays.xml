@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="pref_timer_melody_labels">
+        <item>Hurdbass</item>
+        <item>Ti v poradke</item>
+        <item>Bell</item>
+    </array>
+
+    <array name="pref_timer_melody_values">
+        <item>hurdbass</item>
+        <item>ti_v_poradke</item>
+        <item>bell</item>
+    </array>
+</resources>
