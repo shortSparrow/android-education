@@ -1,16 +1,9 @@
 package com.example.movies.activities;
 
-import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,10 +18,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.movies.R;
 import com.example.movies.data.MovieActorAdapter;
-import com.example.movies.model.Movie;
 import com.example.movies.model.MovieActor;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +34,7 @@ import pl.droidsonroids.gif.GifImageView;
 
 public class MovieInfo extends AppCompatActivity {
     ImageView moviePoster;
+    ImageView movieAnimateLine;
     TextView movieTitle;
     TextView movieIMDBRating;
     TextView movieDirector;
@@ -71,25 +64,9 @@ public class MovieInfo extends AppCompatActivity {
         movieCompany = findViewById(R.id.movieCompany);
         movieActorsList = findViewById(R.id.movieActorsList);
         trailerThumbnail = findViewById(R.id.trailerThumbnail);
-
-        ImageView movieAnimateLine = findViewById(R.id.movieAnimateLine);
-//        val animation = moviePoster.drawable as AnimationDrawable
-//        animation.start()
+        movieAnimateLine = findViewById(R.id.movieAnimateLine);
 
         moviePoster.setBackgroundResource(R.drawable.animation_loader_content);
-        AnimationDrawable animation = (AnimationDrawable) moviePoster.getBackground();
-
-
-        new Timer().scheduleAtFixedRate(new TimerTask(){
-            @Override
-            public void run(){
-                movieAnimateLine.setTranslationY(-150*2);
-                movieAnimateLine.setTranslationX(-150*2);
-                movieAnimateLine.animate().translationY(200*2).translationX(200*2).setDuration(600);
-            }
-        },0,2000);
-
-
 
         movieActorsList.hasFixedSize();
         movieActorsList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -110,6 +87,18 @@ public class MovieInfo extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 ArrayList<MovieActor> actorList = new ArrayList();
                 try {
+
+                    Timer timerId = new Timer();
+                    timerId.scheduleAtFixedRate(new TimerTask(){
+                        @Override
+                        public void run(){
+                            movieAnimateLine.setTranslationY(-150*2);
+                            movieAnimateLine.setTranslationX(-150*2);
+                            movieAnimateLine.animate().translationY(200*2).translationX(200*2).setDuration(600);
+                        }
+                    },0,2000);
+
+
                     String movieId = response.getString("id");
                     Log.d("movieIdSSSS", movieId);
 
@@ -129,7 +118,18 @@ public class MovieInfo extends AppCompatActivity {
                     movieDuration.setText(duration);
                     movieDescription.setText(description);
                     movieCompany.setText(companyCreated);
-//                    Picasso.get().load("https://i.ytimg.com/vi/1Ne1hqOXKKI/maxresdefault.jpg").into(moviePoster);
+                    Picasso.get().load(imageUrl).into(moviePoster,new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            timerId.cancel(); // stop animation
+                            moviePoster.setTranslationZ(1); // set zIndex for actor image. Now it above background animation
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
 
 
                     JSONArray actors = response.getJSONArray("actorList");
@@ -167,7 +167,7 @@ public class MovieInfo extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
                     String thumbnailUrl = response.getString("thumbnailUrl");
-                    Picasso.get().load("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=1200:*").noPlaceholder().into(trailerThumbnail);
+                    Picasso.get().load(thumbnailUrl).noPlaceholder().into(trailerThumbnail);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

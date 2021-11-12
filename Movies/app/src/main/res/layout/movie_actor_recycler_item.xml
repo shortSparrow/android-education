@@ -12,11 +12,26 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/actorImage"
+        <RelativeLayout
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@mipmap/kapibara"/>
+            android:layout_height="100dp">
+
+            <ImageView
+                android:id="@+id/actorImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="#B4B9CF" />
+
+            <ImageView
+                android:id="@+id/movieActorAnimateLine"
+                android:layout_width="141dp"
+                android:layout_height="30dp"
+                android:translationY="-141dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/content_loader_line"
+                android:rotation="-45"
+                android:scaleX="2" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/actorName"

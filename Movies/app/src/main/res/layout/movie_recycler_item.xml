@@ -13,14 +13,34 @@
         android:layout_width="match_parent"
         android:layout_height="100dp">
 
-        <ImageView
-            android:id="@+id/moviePoster"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:scaleType="centerCrop"
+
+
+        <RelativeLayout
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/moviePosterWrapper"
+            android:layout_width="100dp"
+            android:layout_height="100dp">
+
+            <ImageView
+                android:id="@+id/moviePoster"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="#B4B9CF"
+                android:scaleType="centerCrop" />
+
+
+            <ImageView
+                android:id="@+id/movieAnimateLine"
+                android:layout_width="141dp"
+                android:layout_height="30dp"
+                android:translationY="-141dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/content_loader_line"
+                android:rotation="-45"
+                android:scaleX="2" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/movieTitle"
@@ -34,7 +54,7 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.542"
-            app:layout_constraintStart_toEndOf="@+id/moviePoster"
+            app:layout_constraintStart_toEndOf="@+id/moviePosterWrapper"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView

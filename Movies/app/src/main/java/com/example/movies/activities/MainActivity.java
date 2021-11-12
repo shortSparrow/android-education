@@ -49,37 +49,37 @@ public class MainActivity extends AppCompatActivity {
         movies = new ArrayList<Movie>();
         requestQueue = Volley.newRequestQueue(this);
 
-        movies.add(new Movie(
-                "The Shawshank Redemption",
-                "1994",
-                "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UX128_CR0,3,128,176_AL_.jpg",
-                "9.2",
-                "tt0111161"
-                ));
-        movieAdapter = new MovieAdapter(MainActivity.this, movies);
-        recyclerView.setAdapter(movieAdapter);
+//        movies.add(new Movie(
+//                "The Shawshank Redemption",
+//                "1994",
+//                "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UX128_CR0,3,128,176_AL_.jpg",
+//                "9.2",
+//                "tt0111161"
+//        ));
+//        movieAdapter = new MovieAdapter(MainActivity.this, movies);
+//        recyclerView.setAdapter(movieAdapter);
+//
+//        recyclerView.addOnItemTouchListener(
+//                new RecyclerItemClickListener(this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+//
+//                    @Override
+//                    public void onItemClick(View view, int position) {
+//                        Movie clickedMovie = movies.get(position);
+//                        Log.d("clickedItem", clickedMovie.getMovieId());
+//                        Intent intent = new Intent(MainActivity.this, MovieInfo.class);
+//                        intent.putExtra("movieId", clickedMovie.getMovieId() + "");
+//                        startActivity(intent);
+//                    }
+//
+//                    @Override
+//                    public void onLongItemClick(View view, int position) {
+//
+//                    }
+//                })
+//        );
 
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
 
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Movie clickedMovie = movies.get(position);
-                        Log.d("clickedItem", clickedMovie.getMovieId());
-                        Intent intent = new Intent(MainActivity.this, MovieInfo.class);
-                        intent.putExtra("movieId", clickedMovie.getMovieId() + "");
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onLongItemClick(View view, int position) {
-
-                    }
-                })
-        );
-
-
-//        getMovies("https://imdb-api.com/en/API/Top250Movies/k_3si39c77", "items");
+        getMovies("https://imdb-api.com/en/API/Top250Movies/k_3si39c77", "items");
     }
 
     private void getMovies(String url, String key) {
@@ -125,6 +125,26 @@ public class MainActivity extends AppCompatActivity {
 
                     movieAdapter = new MovieAdapter(MainActivity.this, movies);
                     recyclerView.setAdapter(movieAdapter);
+
+                    recyclerView.addOnItemTouchListener(
+                            new RecyclerItemClickListener(MainActivity.this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+
+                                @Override
+                                public void onItemClick(View view, int position) {
+                                    Movie clickedMovie = movies.get(position);
+                                    Log.d("clickedItem", clickedMovie.getMovieId());
+                                    Intent intent = new Intent(MainActivity.this, MovieInfo.class);
+                                    intent.putExtra("movieId", clickedMovie.getMovieId() + "");
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void onLongItemClick(View view, int position) {
+
+                                }
+                            })
+                    );
+
                 } catch (JSONException err) {
                     err.printStackTrace();
                 } finally {
@@ -142,9 +162,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void searchMovies(View view) {
-//        movies.clear();
-//        String searchValue = searchFiled.getText().toString().trim();
-//        Log.d("searchValue", searchValue);
-//        getMovies("https://imdb-api.com/en/API/Search/k_3si39c77/" + searchValue, "results");
+        movies.clear();
+        String searchValue = searchFiled.getText().toString().trim();
+        Log.d("searchValue", searchValue);
+        getMovies("https://imdb-api.com/en/API/Search/k_3si39c77/" + searchValue, "results");
     }
 }
