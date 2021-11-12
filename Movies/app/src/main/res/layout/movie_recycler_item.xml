@@ -65,7 +65,7 @@
             android:paddingBottom="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/moviePoster" />
+            app:layout_constraintStart_toEndOf="@+id/moviePosterWrapper" />
 
         <TextView
             android:id="@+id/movieIMDBRating"
