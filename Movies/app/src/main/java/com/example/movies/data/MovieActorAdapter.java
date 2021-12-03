@@ -33,14 +33,12 @@ public class MovieActorAdapter extends RecyclerView.Adapter<MovieActorAdapter.Mo
         ImageView actorImage;
         TextView actorName;
         TextView characterName;
-        ImageView movieAnimateLine;
 
         public MovieActorViewHolder(@NonNull View itemView) {
             super(itemView);
             actorImage = itemView.findViewById(R.id.actorImage);
             actorName = itemView.findViewById(R.id.actorName);
             characterName = itemView.findViewById(R.id.characterName);
-            movieAnimateLine = itemView.findViewById(R.id.movieActorAnimateLine);
         }
     }
 
@@ -65,33 +63,18 @@ public class MovieActorAdapter extends RecyclerView.Adapter<MovieActorAdapter.Mo
         holder.actorName.setText(name);
         holder.characterName.setText(characterName);
 
-        // added animation for background until image is loaded
-        Timer timerId = new Timer();
-        if (holder.movieAnimateLine.getImageAlpha() == 255) {
-            timerId.scheduleAtFixedRate(new TimerTask(){
-                @Override
-                public void run(){
-                    holder.movieAnimateLine.setTranslationY(-150*2);
-                    holder.movieAnimateLine.setTranslationX(-150*2);
-                    holder.movieAnimateLine.animate().translationY(200*2).translationX(200*2).setDuration(700);
-                }
-            },0,2000);
-        }
 
-        Picasso.get().load(imageUrl).resize(100, 100).centerCrop().into(holder.actorImage, new Callback() {
+        Picasso.get().load(imageUrl).resize(100, 100).centerCrop().noPlaceholder().into(holder.actorImage, new Callback() {
             @Override
             public void onSuccess() {
-                timerId.cancel(); // stop animation
-                holder.actorImage.setTranslationZ(1); // set zIndex for actor image. Now it above background animation
+
             }
 
             @Override
             public void onError(Exception e) {
-
+                Picasso.get().load(R.mipmap.no_image).into(holder.actorImage);
             }
         });
-
-
     }
 
 

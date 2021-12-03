@@ -13,8 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="100dp">
 
-
-
         <RelativeLayout
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -23,23 +21,14 @@
             android:layout_width="100dp"
             android:layout_height="100dp">
 
-            <ImageView
+            <pl.droidsonroids.gif.GifImageView
+                android:src="@mipmap/loading_gf"
                 android:id="@+id/moviePoster"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:background="#B4B9CF"
                 android:scaleType="centerCrop" />
 
-
-            <ImageView
-                android:id="@+id/movieAnimateLine"
-                android:layout_width="141dp"
-                android:layout_height="30dp"
-                android:translationY="-141dp"
-                android:layout_centerInParent="true"
-                android:background="@drawable/content_loader_line"
-                android:rotation="-45"
-                android:scaleX="2" />
         </RelativeLayout>
 
         <TextView

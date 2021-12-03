@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="100dp"
-    android:layout_height="160dp"
+    android:layout_height="165dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="5dp"
-    android:padding="2dp"
-    android:layout_marginRight="10dp"
+    android:layout_marginHorizontal="5dp"
     >
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
+            android:id="@+id/actorImageWrapper"
             android:layout_width="100dp"
             android:layout_height="100dp">
 
-            <ImageView
+<!--            not working now -->
+            <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/actorImage"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="#B4B9CF" />
+                android:background="#B4B9CF"
+                android:src="@mipmap/loading_gf" />
 
-            <ImageView
-                android:id="@+id/movieActorAnimateLine"
-                android:layout_width="141dp"
-                android:layout_height="30dp"
-                android:translationY="-141dp"
-                android:layout_centerInParent="true"
-                android:background="@drawable/content_loader_line"
-                android:rotation="-45"
-                android:scaleX="2" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/actorName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="2"
+            android:layout_above="@+id/characterName"
+            android:layout_marginBottom="5dp"
             android:ellipsize="end"
+            android:maxLines="2"
+            android:paddingHorizontal="3dp"
+            android:text="actor name"
             android:textAlignment="center"
-            android:text="actor name"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/characterName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
             android:ellipsize="end"
-            android:textAlignment="center"
-            android:text="character name"/>
-    </LinearLayout>
+            android:maxLines="1"
+            android:paddingHorizontal="3dp"
+            android:text="character name"
+            android:textAlignment="center" />
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

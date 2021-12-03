@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movies.R;
 import com.example.movies.model.Movie;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -33,7 +34,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         TextView movieTitle;
         TextView movieYear;
         TextView imdbRating;
-        ImageView movieAnimateLine;
 
         public MovieViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -41,7 +41,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             movieTitle = itemView.findViewById(R.id.movieTitle);
             movieYear = itemView.findViewById(R.id.movieYear);
             imdbRating = itemView.findViewById(R.id.movieIMDBRating);
-            movieAnimateLine = itemView.findViewById(R.id.movieAnimateLine);
         }
 
         @Override
@@ -72,24 +71,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         holder.movieYear.setText(year);
         holder.imdbRating.setText(imdbRating);
 
-        // added animation for background until image is loaded
-        Timer timerId = new Timer();
-        if (holder.movieAnimateLine.getImageAlpha() == 255) {
-            timerId.scheduleAtFixedRate(new TimerTask(){
-                @Override
-                public void run(){
-                    holder.movieAnimateLine.setTranslationY(-150*2);
-                    holder.movieAnimateLine.setTranslationX(-150*2);
-                    holder.movieAnimateLine.animate().translationY(200*2).translationX(200*2).setDuration(700);
-                }
-            },0,2000);
-        }
 
-        Picasso.get().load(posterUrl).fit().centerInside().into(holder.posterImageView, new Callback() {
+        Picasso.get().load(posterUrl).fit().centerInside().noPlaceholder().into(holder.posterImageView, new Callback() {
             @Override
             public void onSuccess() {
-                timerId.cancel(); // stop animation
-                holder.posterImageView.setTranslationZ(1); // set zIndex for actor image. Now it above background animation
+
             }
 
             @Override
