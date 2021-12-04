@@ -23,23 +23,56 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
+        android:id="@+id/imageButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
+        android:background="@null"
+        android:onClick="searchMovies"
         android:scaleType="fitCenter"
         android:src="@drawable/search"
-        android:onClick="searchMovies"
-        android:background="@null"
         app:layout_constraintBottom_toBottomOf="@+id/searchMovie"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/searchMovie"
-        />
+        app:layout_constraintTop_toTopOf="@+id/searchMovie" />
 
 
+    <LinearLayout
+        android:id="@+id/failedLoadDataWrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/searchMovie">
 
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_error_icon_triangle"/>
 
+        <TextView
+            android:id="@+id/failedLoadDataText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
+            android:paddingHorizontal="20dp"
+            android:textStyle="bold"
+            android:textColor="#DA8585"
+            android:text="Error happened" />
 
+        <Button
+            android:id="@+id/loadMoviesAgain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="try again"
+            />
+    </LinearLayout>
 
 
     <com.facebook.shimmer.ShimmerFrameLayout

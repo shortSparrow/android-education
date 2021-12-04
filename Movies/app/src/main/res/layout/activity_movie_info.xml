@@ -22,13 +22,15 @@
                 android:id="@+id/trailerThumbnail"
                 android:layout_width="0dp"
                 android:layout_height="300dp"
-                android:src="@mipmap/loading_gf"
+                android:background="@color/black"
                 android:scaleType="centerCrop"
+                android:src="@mipmap/loading_gf"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/movieInfoWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
@@ -36,166 +38,45 @@
                 app:layout_constraintTop_toTopOf="@+id/trailerThumbnail"
                 tools:layout_editor_absoluteX="0dp">
 
-                <LinearLayout
-                    android:id="@+id/movieShortInfoWrapper"
+                <include layout="@layout/movie_short_info_skeleton" />
+
+                <include
+                    android:id="@+id/movieShortInfoContainer"
+                    layout="@layout/movie_short_info" />
+
+                <include
+                    android:id="@+id/movie_long_info_container"
+                    layout="@layout/movie_long_info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/movieShortInfoContainer" />
+
+
+                <include
+                    android:id="@+id/shimmer_movie_info_container"
+                    layout="@layout/movie_info_skeleton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="250dp"
-                    android:background="@drawable/movie_full_bg"
-                    android:orientation="vertical"
-                    android:paddingVertical="5dp"
-                    android:paddingLeft="160dp"
-                    android:paddingRight="10dp"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/movieTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="title"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ratings " />
-
-                        <TextView
-                            android:id="@+id/movieIMDBRating"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="****" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Director: " />
-
-                        <TextView
-                            android:id="@+id/movieDirector"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Christopher Nolan" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="releaseDate: " />
-
-                        <TextView
-                            android:id="@+id/movieReleaseDate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2010-07-29" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="duration: " />
-
-                        <TextView
-                            android:id="@+id/movieDuration"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2h 28min" />
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-
-
-
-                <com.facebook.shimmer.ShimmerFrameLayout
-                    android:id="@+id/fullMoviePosterShimmer"
-                    app:shimmer_base_alpha="0.7"
-                    app:shimmer_duration="1500"
-                    android:layout_width="150dp"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="150dp"
-                    app:cardCornerRadius="10dp"
-                    app:layout_constraintStart_toStartOf="@+id/movieShortInfoWrapper"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/moviePoster"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="#B4B9CF"
-                        android:scaleType="centerCrop" />
-
-                </com.facebook.shimmer.ShimmerFrameLayout>
-
-                <LinearLayout
-                    android:id="@+id/linearLayout"
-                    android:layout_width="match_parent"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_height="0dp"
                     android:layout_marginTop="30dp"
-                    android:orientation="vertical"
-                    app:layout_constraintTop_toBottomOf="@+id/movieShortInfoWrapper">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:text="Plot"/>
-                    <TextView
-                        android:id="@+id/movieDescription"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum" />
+                    app:layout_constraintTop_toBottomOf="@+id/movieShortInfoContainer" />
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:layout_marginTop="5dp"
-                        android:text="Companies"/>
-                    <TextView
-                        android:id="@+id/movieCompany"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Warner Bros., Legendary Entertainment, Syncopy" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:text="Actors squad"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/movieActorsList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="170dp"
+                    android:clipToPadding="false"
+                    android:paddingHorizontal="5dp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/movie_long_info_container"
+                    tools:listitem="@layout/movie_actor_recycler_item" />
 
 
                 <com.facebook.shimmer.ShimmerFrameLayout
@@ -203,40 +84,72 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                    app:layout_constraintTop_toBottomOf="@+id/shimmer_movie_info_container"
                     app:shimmer_duration="1500">
 
-                <!-- Adding 6 rows of placeholders -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="10dp"
-                    android:orientation="horizontal">
+                    <!-- Adding 6 rows of placeholders -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
 
-                    <include layout="@layout/movie_actor_skeleton" />
-                    <include layout="@layout/movie_actor_skeleton" />
-                    <include layout="@layout/movie_actor_skeleton" />
-                    <include layout="@layout/movie_actor_skeleton" />
+                        <include layout="@layout/movie_actor_skeleton" />
 
-                </LinearLayout>
+                        <include layout="@layout/movie_actor_skeleton" />
+
+                        <include layout="@layout/movie_actor_skeleton" />
+
+                        <include layout="@layout/movie_actor_skeleton" />
+
+                    </LinearLayout>
                 </com.facebook.shimmer.ShimmerFrameLayout>
 
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/movieActorsList"
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_marginHorizontal="5dp"
-
-                    android:layout_height="170dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                    tools:listitem="@layout/movie_actor_recycler_item" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/failedLoadDataWrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/trailerThumbnail">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_error_icon_triangle" />
+
+                <TextView
+                    android:id="@+id/failedLoadDataText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingHorizontal="20dp"
+                    android:text="Error happened"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="#DA8585"
+                    android:textStyle="bold" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="try again"
+                    android:onClick="getMovieInfo"/>
+            </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

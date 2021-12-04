@@ -4,14 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -35,9 +41,12 @@ public class MainActivity extends AppCompatActivity {
     private MovieAdapter movieAdapter;
     private ArrayList<Movie> movies;
     private RequestQueue requestQueue;
+    private Button loadMoviesAgain;
 
     private EditText searchFiled;
     private ShimmerFrameLayout mFrameLayout;
+    private LinearLayout failedLoadDataWrapper;
+    private TextView failedLoadDataText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mFrameLayout = findViewById(R.id.shimmer_view_container);
         searchFiled = findViewById(R.id.searchMovie);
+        loadMoviesAgain = findViewById(R.id.loadMoviesAgain);
+        failedLoadDataWrapper = findViewById(R.id.failedLoadDataWrapper);
+        failedLoadDataText = findViewById(R.id.failedLoadDataText);
         recyclerView = findViewById(R.id.movieRecyclerList);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -53,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
 
 //        loadTestData();
-
-        getMovies("https://imdb-api.com/en/API/Top250Movies/k_3si39c77", "items");
+        showShimmer();
+        getMovies("https://imdb-api.com/en/API/Top250Movies/k_3si39c77/", "items");
     }
 
     private void loadTestData() {
@@ -225,17 +237,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mFrameLayout.startShimmer();
-    }
 
-    @Override
-    public void onPause() {
-        mFrameLayout.stopShimmer();
-        super.onPause();
-    }
 
     private void getMovies(String url, String key) {
         ProgressDialog progress = new ProgressDialog(this);
@@ -251,12 +253,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    String errorMessage = response.getString("errorMessage");
+                    Log.d("errorMessage", errorMessage);
+                    if (errorMessage.length() > 0) {
+                        showErrorMessage(errorMessage, url, key);
+                        return;
+                    }
+
                     JSONArray jsonArray = response.getJSONArray(key);
+
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         Log.d("cycleFor", i + "");
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-
 
                         String movieId = jsonObject.getString("id").toString();
                         String title = jsonObject.getString("title").toString();
@@ -303,14 +312,23 @@ public class MainActivity extends AppCompatActivity {
                             })
                     );
 
-                    mFrameLayout.startShimmer();
-                    mFrameLayout.setVisibility(View.GONE);
+                    stopShimmer();
                     recyclerView.setVisibility(View.VISIBLE);
 
+                    if (failedLoadDataWrapper.getVisibility() == View.VISIBLE) {
+                        failedLoadDataWrapper.setVisibility(View.GONE);
+                    }
+
                 } catch (JSONException err) {
+
+                    if (err.getMessage() != null) {
+                        showErrorMessage(err.getMessage(), url, key);
+                    } else {
+                        showErrorMessage("Some error happened!", url, key);
+                    }
+
                     err.printStackTrace();
                     Toast.makeText(getApplicationContext(),"Cant load the content", Toast.LENGTH_LONG).show();
-                    mFrameLayout.setVisibility(View.GONE);
                 } finally {
                     progress.cancel();
                 }
@@ -318,13 +336,44 @@ public class MainActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                showErrorMessage("Some error happened!", url, key);
                 Toast.makeText(getApplicationContext(),"Cant load the content", Toast.LENGTH_LONG).show();
-                mFrameLayout.setVisibility(View.GONE);
                 error.printStackTrace();
             }
         });
 
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         requestQueue.add(request);
+    }
+
+    public void showShimmer() {
+        mFrameLayout.startShimmer();
+    }
+
+    public void stopShimmer() {
+        mFrameLayout.stopShimmer();
+        mFrameLayout.setVisibility(View.GONE);
+    }
+
+
+    public void showErrorMessage(String errorMessage, String url, String key) {
+        stopShimmer();
+        recyclerView.setVisibility(View.GONE);
+        failedLoadDataWrapper.setVisibility(View.VISIBLE);
+        failedLoadDataText.setText(errorMessage);
+
+        loadMoviesAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("loadAGain", key);
+                Log.d("loadAGain1", url);
+                getMovies(url, key);
+            }
+        });
     }
 
     public void searchMovies(View view) {
@@ -333,4 +382,5 @@ public class MainActivity extends AppCompatActivity {
         Log.d("searchValue", searchValue);
         getMovies("https://imdb-api.com/en/API/Search/k_3si39c77/" + searchValue, "results");
     }
+
 }
