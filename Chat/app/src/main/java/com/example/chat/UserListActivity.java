@@ -3,6 +3,7 @@ package com.example.chat;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -95,8 +96,12 @@ public class UserListActivity extends AppCompatActivity {
         userLayoutManager = new LinearLayoutManager(this);
         userAdapter = new UserAdapter(userArrayList);
 
+
         userRecyclerView.setLayoutManager(userLayoutManager);
         userRecyclerView.setAdapter(userAdapter);
+
+        userRecyclerView.addItemDecoration(new DividerItemDecoration(userRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
+
 
         userAdapter.setOnUserClickListener(new UserAdapter.OnUserClickListener() {
             @Override
@@ -109,6 +114,7 @@ public class UserListActivity extends AppCompatActivity {
     private void goToChat(int position) {
         Intent intent = new Intent(UserListActivity.this, ChatActivity.class);
         intent.putExtra("recipientUserId", userArrayList.get(position).getId());
+        intent.putExtra("chatName", userArrayList.get(position).getName());
         startActivity(intent);
     }
 

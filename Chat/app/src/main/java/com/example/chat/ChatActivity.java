@@ -58,6 +58,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private String userName;
     private String recipientUserId;
+    private String chatName;
 
     private FirebaseDatabase database;
     private DatabaseReference databaseMessageReference;
@@ -77,6 +78,9 @@ public class ChatActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         recipientUserId = intent.getStringExtra("recipientUserId");
+        chatName = intent.getStringExtra("chatName");
+
+        setTitle("Chat with " + chatName);
 
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -190,9 +194,11 @@ public class ChatActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Message message = snapshot.getValue(Message.class);
 
-                if ((message.getSender().equals(auth.getCurrentUser().getUid()) && message.getRecipient().equals(recipientUserId)) || (
-                        message.getSender().equals(recipientUserId) && message.getRecipient().equals(auth.getCurrentUser().getUid())
-                )) {
+                if ((message.getSender().equals(auth.getCurrentUser().getUid()) && message.getRecipient().equals(recipientUserId))) {
+                    message.setIsMine(true);
+                    messageAdapter.add(message);
+                } else if (message.getSender().equals(recipientUserId) && message.getRecipient().equals(auth.getCurrentUser().getUid())){
+                    message.setIsMine(false);
                     messageAdapter.add(message);
                 }
             }

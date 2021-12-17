@@ -7,17 +7,28 @@ public class Message {
     private String createdAt;
     private String sender;
     private String recipient;
+    private Boolean isMine;
 
     public Message() {
     }
 
-    public Message(String text, String senderName, String imageUrl, String createdAt, String sender, String recipient) {
+    public Message(String text, String senderName, String imageUrl, String createdAt, String sender, String recipient, Boolean isMine) {
         this.text = text;
         this.senderName = senderName;
         this.imageUrl = imageUrl;
         this.createdAt = createdAt;
         this.sender = sender;
         this.recipient = recipient;
+        this.isMine = isMine;
+    }
+
+
+    public Boolean getIsMine() {
+        return isMine;
+    }
+
+    public void setIsMine(Boolean mine) {
+        this.isMine = mine;
     }
 
     public String getSender() {
