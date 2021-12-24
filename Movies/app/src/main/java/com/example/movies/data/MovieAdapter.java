@@ -72,7 +72,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         holder.imdbRating.setText(imdbRating);
 
 
-        Picasso.get().load(posterUrl).fit().centerInside().noPlaceholder().into(holder.posterImageView, new Callback() {
+        Picasso.get().load(posterUrl).fit().centerInside().placeholder(R.mipmap.loading_gf).into(holder.posterImageView, new Callback() {
             @Override
             public void onSuccess() {
 

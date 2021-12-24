@@ -64,7 +64,7 @@ public class MovieActorAdapter extends RecyclerView.Adapter<MovieActorAdapter.Mo
         holder.characterName.setText(characterName);
 
 
-        Picasso.get().load(imageUrl).resize(100, 100).centerCrop().noPlaceholder().into(holder.actorImage, new Callback() {
+        Picasso.get().load(imageUrl).resize(100, 100).centerCrop().placeholder(R.mipmap.loading_gf).into(holder.actorImage, new Callback() {
             @Override
             public void onSuccess() {
 
