@@ -7,8 +7,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.android.taxiapp.model.Driver;
+import com.android.taxiapp.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -17,32 +29,51 @@ import util.Validate;
 
 interface LoginSignInListener {
     public void signUpButtonOnClick(View v);
+    public void loginButtonOnClick(View v);
     public void navigateToLoginButtonOnClick(View v);
 }
 
 
-public class HandleSignUp {
+public class HandleSignIn {
+    private static final String TAG = "HandleSignUp";
+    Activity activity;
+    FirebaseDatabase database;
+    DatabaseReference messagesDB;
+    DatabaseReference usersDB;
+    private FirebaseAuth mAuth;
+
     private TextInputLayout textInputEmail;
     private TextInputLayout textInputFirstName;
     private TextInputLayout textInputLastName;
     private TextInputLayout textInputPassword;
     private TextInputLayout textInputConfirmPassword;
+    private TextView authTextError;
 
     public Button signUpButton;
+    public Button loginButton;
     private TextView navigateToLoginButton;
 
     private boolean signUpMode = true;
 
     ArrayList inputFields;
 
-    public HandleSignUp(Activity activity) {
+    public HandleSignIn(Activity activity) {
+        this.activity = activity;
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        messagesDB = database.getReference("message");
+        usersDB = database.getReference("users");
+
+
         textInputEmail = activity.findViewById(R.id.email_text_input);
         textInputFirstName = activity.findViewById(R.id.first_name_text_input);
         textInputLastName = activity.findViewById(R.id.last_name_text_input);
         textInputPassword = activity.findViewById(R.id.password_text_input);
         textInputConfirmPassword = activity.findViewById(R.id.confirm_password_text_input);
+        authTextError = activity.findViewById(R.id.auth_message_error);
 
         signUpButton = activity.findViewById(R.id.sign_up_button);
+        loginButton = activity.findViewById(R.id.login_button);
         navigateToLoginButton = activity.findViewById(R.id.navigate_to_login_button);
 
         LoginSignInListener myListener = (LoginSignInListener) activity;
@@ -51,6 +82,13 @@ public class HandleSignUp {
             @Override
             public void onClick(View v) {
                 myListener.signUpButtonOnClick(v);
+            }
+        });
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myListener.loginButtonOnClick(v);
             }
         });
 
@@ -91,6 +129,7 @@ public class HandleSignUp {
             });
         }
     }
+
 
     public boolean validateEmail() {
         String value = textInputEmail.getEditText().getText().toString().trim();
@@ -206,7 +245,8 @@ public class HandleSignUp {
             textInputLastName.setVisibility(TextInputLayout.GONE);
             textInputConfirmPassword.setVisibility(TextInputLayout.GONE);
 
-            signUpButton.setText("Login");
+            signUpButton.setVisibility(Button.GONE);
+            loginButton.setVisibility(Button.VISIBLE);
             navigateToLoginButton.setText("Tap to Sign Up");
         } else {
             signUpMode = true;
@@ -214,8 +254,38 @@ public class HandleSignUp {
             textInputLastName.setVisibility(TextInputLayout.VISIBLE);
             textInputConfirmPassword.setVisibility(TextInputLayout.VISIBLE);
 
-            signUpButton.setText("Signup");
+            signUpButton.setVisibility(Button.VISIBLE);
+            loginButton.setVisibility(Button.GONE);
             navigateToLoginButton.setText("Tap to Login");
         }
     }
+
+    public void createUser(String userRole) {
+        String password = textInputPassword.getEditText().getText().toString().trim();
+        User user = prepareUser(userRole);
+
+        HandleAuthUser handleAuthUser = new HandleAuthUser(activity);
+        handleAuthUser.createUser(user, password);
+    }
+
+
+    public void loginUser(String userRole) {
+        String password = textInputPassword.getEditText().getText().toString().trim();
+        User user = prepareUser(userRole);
+
+        HandleAuthUser handleAuthUser = new HandleAuthUser(activity);
+        handleAuthUser.loginUser(user, password);
+    }
+
+    public User prepareUser(String userRole) {
+        User user = new User();
+        user.setFirstName(textInputFirstName.getEditText().getText().toString().trim());
+        user.setLastName(textInputLastName.getEditText().getText().toString().trim());
+        user.setEmail(textInputEmail.getEditText().getText().toString().trim());
+        user.setRole(userRole);
+
+        return user;
+    }
+
+
 }
