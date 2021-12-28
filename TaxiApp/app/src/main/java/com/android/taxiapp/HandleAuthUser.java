@@ -1,5 +1,7 @@
 package com.android.taxiapp;
 
+import static util.Constants.DRIVER_ROLE;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
@@ -37,7 +39,6 @@ public class HandleAuthUser {
         usersDB = database.getReference("users");
 
         authTextError = activity.findViewById(R.id.auth_message_error);
-
     }
 
 
@@ -56,7 +57,7 @@ public class HandleAuthUser {
 
                             usersDB.child(currentUser.getUid()).setValue(user);
 
-                            if (user.getRole() == "driver") {
+                            if (user.getRole() == DRIVER_ROLE) {
                                 activity.startActivity(new Intent(activity, DriverMapsActivity.class));
                             }
                         } else {

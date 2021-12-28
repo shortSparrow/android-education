@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 apply plugin: 'com.google.gms.google-services'
 
@@ -62,4 +63,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.firebase:geofire-android:3.1.0'
+    implementation 'com.firebase:geofire-android-common:3.1.0'
+
 }
