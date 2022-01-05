@@ -57,7 +57,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                                 }
 
                                 if (user.getRole().equals(PASSENGER_ROLE)) {
-//                                    startActivity(new Intent(SplashScreenActivity.this, PassengerActivity.class));
+                                    startActivity(new Intent(SplashScreenActivity.this, PassengerMapsActivity.class));
                                 }
                             }
 
