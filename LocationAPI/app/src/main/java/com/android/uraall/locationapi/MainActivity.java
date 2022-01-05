@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
     private Location location;
 
     private Boolean isLocationUpdatesActive = false;
-    private String locationUpdateTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +75,11 @@ public class MainActivity extends AppCompatActivity {
         startLocationUpdatesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startLocationUpdates();
+                if (checkLocationPermissions()) {
+                    startLocationUpdates();
+                } else {
+                    requestLocationPermission();
+                }
             }
         });
 
@@ -92,6 +95,10 @@ public class MainActivity extends AppCompatActivity {
         buildLocationRequest();
         buildLocationCallback();
         buildLocationSettingRequest();
+
+        if (!checkLocationPermissions()) {
+            requestLocationPermission();
+        }
     }
 
     private void stopLocationUpdates() {
@@ -221,12 +228,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        Log.d("XXX", "XXX" + isLocationUpdatesActive + checkLocationPermissions());
         super.onResume();
         if (isLocationUpdatesActive && checkLocationPermissions()) {
             startLocationUpdates();
-        } else if (!checkLocationPermissions()) {
-            requestLocationPermission();
         }
     }
 
