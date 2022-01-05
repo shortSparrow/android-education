@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.android.taxiapp.HandleMapsActivity;
-import com.android.taxiapp.MapsButtonsListener;
 import com.android.taxiapp.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;

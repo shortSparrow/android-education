@@ -1,4 +1,6 @@
-package com.android.taxiapp;
+package com.android.taxiapp.maps;
+
+import static util.Constants.DRIVER_DB_NAME;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -7,11 +9,13 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
 
+import android.location.Location;
 import android.os.Bundle;
 
 import android.view.View;
 import android.widget.Button;
 
+import com.android.taxiapp.R;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQuery;
@@ -19,10 +23,17 @@ import com.firebase.geofire.GeoQueryEventListener;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+
+import java.util.List;
 
 import util.Constants;
 
@@ -32,6 +43,7 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
     private int searchRadius = 1;
     private boolean isDriverFound = false;
     private String nearestDriverId;
+    private Marker driverMarker;
 
     private Button bookTaxiButton;
 
@@ -44,7 +56,7 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        driversDB = FirebaseDatabase.getInstance().getReference().child("drivers");
+        driversDB = FirebaseDatabase.getInstance().getReference().child(DRIVER_DB_NAME);
 
         bookTaxiButton = findViewById(R.id.book_taxi_button);
 
@@ -72,6 +84,7 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
                 if (!isDriverFound) {
                     isDriverFound = true;
                     nearestDriverId = key;
+                    gettingNearestDriverLocation();
                 }
             }
 
@@ -95,6 +108,54 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
 
             @Override
             public void onGeoQueryError(DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void gettingNearestDriverLocation() {
+        bookTaxiButton.setText("Getting your driver location...");
+        DatabaseReference yourDriverLocation = driversDB.child(nearestDriverId).child("l");
+
+        yourDriverLocation.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    List<Object> driverLocationParameters = (List<Object>) snapshot.getValue();
+
+                    double latitude = 0;
+                    double longitude = 0;
+
+                    if (driverLocationParameters.get(0) != null) {
+                        latitude = Double.parseDouble(driverLocationParameters.get(0).toString());
+                    }
+
+                    if (driverLocationParameters.get(1) != null) {
+                        longitude = Double.parseDouble(driverLocationParameters.get(1).toString());
+                    }
+
+                    LatLng driverLatLng = new LatLng(latitude, longitude);
+
+                    if (driverMarker != null) {
+                        driverMarker.remove();
+                    }
+
+                    Location driverLocation = new Location("");
+                    driverLocation.setLatitude(latitude);
+                    driverLocation.setLongitude(longitude);
+
+                    float distanceToDriver = driverLocation.distanceTo(handleMapsActivity.location);
+
+                    bookTaxiButton.setText("Distance to driver is " + distanceToDriver + "m");
+
+                    driverMarker = handleMapsActivity.mMap.addMarker(
+                            new MarkerOptions().position(driverLatLng).title("Your driver")
+                    );
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });

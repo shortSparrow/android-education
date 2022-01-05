@@ -3,16 +3,16 @@ package com.android.taxiapp;
 import static util.Constants.DRIVER_ROLE;
 import static util.Constants.PASSENGER_ROLE;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.android.taxiapp.auth.ChooseModeActivity;
+import com.android.taxiapp.maps.DriverMapsActivity;
+import com.android.taxiapp.maps.PassengerMapsActivity;
 import com.android.taxiapp.model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

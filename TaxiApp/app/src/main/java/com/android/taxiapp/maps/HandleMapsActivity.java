@@ -1,4 +1,4 @@
-package com.android.taxiapp;
+package com.android.taxiapp.maps;
 
 
 import android.Manifest;
@@ -8,7 +8,6 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
@@ -20,6 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
+import com.android.taxiapp.auth.ChooseModeActivity;
+import com.android.taxiapp.R;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.common.api.ApiException;
@@ -56,7 +57,7 @@ public class HandleMapsActivity {
     private static final int REQUEST_LOCATION_PERMISSION = 222;
     private static String TAG = "HandleMapsActivity";
 
-    private GoogleMap mMap;
+    public GoogleMap mMap;
 
     private FusedLocationProviderClient fusedLocationClient;
     private SettingsClient settingsClient;

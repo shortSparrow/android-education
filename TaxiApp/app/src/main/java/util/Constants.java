@@ -2,11 +2,11 @@ package util;
 
 public class Constants {
     static public final String PASSENGER_ROLE = "passenger";
-    static public final String PASSENGER_DB_NAME = "passengers";
+    static public final String PASSENGER_DB_NAME = "passengersGeoFire";
     static public final String PASSENGER_TAG = "PassengerMapsActivity";
 
     static public final String DRIVER_ROLE = "driver";
-    static public final String DRIVER_DB_NAME = "driver";
+    static public final String DRIVER_DB_NAME = "driverGeoFire";
     static public final String DRIVER_TAG = "DriverMapsActivity";
 
     public Constants() {

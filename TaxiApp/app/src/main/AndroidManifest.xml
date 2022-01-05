@@ -31,21 +31,21 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".PassengerMapsActivity"
+            android:name=".maps.PassengerMapsActivity"
             android:exported="false"
             android:label="@string/title_activity_passenger_maps" />
         <activity
-            android:name=".DriverMapsActivity"
+            android:name=".maps.DriverMapsActivity"
             android:exported="false"
             android:label="@string/title_activity_driver_maps" />
         <activity
-            android:name=".DriverSignInActivity"
+            android:name=".auth.DriverSignInActivity"
             android:exported="false" />
         <activity
-            android:name=".PassengerSignInActivity"
+            android:name=".auth.PassengerSignInActivity"
             android:exported="false" />
         <activity
-            android:name=".ChooseModeActivity"
+            android:name=".auth.ChooseModeActivity"
             android:exported="false" />
         <activity
             android:name=".SplashScreenActivity"

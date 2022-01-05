@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingVertical="15dp"
-    tools:context=".PassengerSignInActivity">
+    tools:context=".auth.PassengerSignInActivity">
 
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:textSize="20sp"
             android:textColor="@color/green"
             android:textAllCaps="true"
-            android:text="Driver Sign In" />
+            android:text="Passenger Sign In" />
 
         <include
             layout="@layout/sing_up_layout"
