@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/rulesFragment"
+        android:title="Rules"
+        android:icon="@drawable/ic_rules_24"/>
+    <item
+        android:id="@+id/ballFeaturesFragment"
+        android:title="Ball featires"
+        android:icon="@drawable/ic_ball"/>
+</menu>
