@@ -1,24 +1,25 @@
 package com.example.contactsmvvm
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.contactsmvvm.databinding.ContactItemBinding
 
 class ContactRVAdapter(
     var list: List<Contact>,
     private val onClickDeleteIcon: ContactDeleteItemClick,
-    private val contactItemClick: ContactItemClick) :
+    private val contactItemClick: ContactItemClick
+) :
     RecyclerView.Adapter<ContactRVAdapter.ContactViewHolder>() {
 
-
-    inner class ContactViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView = view.findViewById<TextView>(R.id.contact_name)
-        val email: TextView = view.findViewById<TextView>(R.id.contact_email)
-        val phone: TextView = view.findViewById<TextView>(R.id.contact_phone)
-        val deleteContact: ImageView = view.findViewById<ImageView>(R.id.delete_contact)
+    inner class ContactViewHolder(private var binding: ContactItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(contact: Contact) {
+            binding.contact = contact
+            binding.deleteContact.setOnClickListener {
+                onClickDeleteIcon.onClickDeleteIcon(contact)
+            }
+        }
     }
 
 
@@ -31,20 +32,19 @@ class ContactRVAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.contact_item, parent, false)
-        return  ContactViewHolder(view)
+        return ContactViewHolder(
+            ContactItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        holder.name.text = list[position].name
-        holder.email.text = list[position].email
-        holder.phone.text = list[position].phone
+        holder.bind(list[position])
 
-        holder.deleteContact.setOnClickListener{
-            onClickDeleteIcon.onClickDeleteIcon(list[position])
-        }
-
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             contactItemClick.onClickContact(list[position])
         }
     }

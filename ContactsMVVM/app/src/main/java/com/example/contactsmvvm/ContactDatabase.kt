@@ -29,4 +29,24 @@ abstract class ContactDatabase : RoomDatabase() {
         }
     }
 
+
+//    companion object {
+//        @Volatile
+//        private var INSTANCE: ContactDatabase? = null
+//
+//        fun getDatabase(context: Context): ContactDatabase {
+//            return INSTANCE ?: synchronized(this) {
+//                val instance = Room.databaseBuilder(
+//                    context,
+//                    ContactDatabase::class.java,
+//                    "app_database")
+//                    .createFromAsset("database/bus_schedule.db")
+//                    .build()
+//                INSTANCE = instance
+//
+//                instance
+//            }
+//        }
+//    }
+
 }

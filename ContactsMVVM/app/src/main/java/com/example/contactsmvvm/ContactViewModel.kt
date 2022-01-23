@@ -3,14 +3,15 @@ package com.example.contactsmvvm
 import android.app.Dialog
 import android.content.Context
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.WindowManager
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.contactsmvvm.databinding.AddCntactDialogBinding
+import com.example.contactsmvvm.databinding.ContactItemBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -40,34 +41,25 @@ class ContactViewModel(private val repository: ContactRepositoryImplementation) 
 
 
     fun openDialog(context: Context, contact: Contact? = null) {
+        val binding: AddCntactDialogBinding =
+            AddCntactDialogBinding.inflate(LayoutInflater.from(context))
+
         val dialog = Dialog(context)
-        dialog.setContentView(R.layout.add_cntact_dialog)
+        dialog.setContentView(binding.root)
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.window?.setLayout(
-            ConstraintLayout.LayoutParams.MATCH_PARENT,
-            ConstraintLayout.LayoutParams.MATCH_PARENT
-        )
 
-        val addButton = dialog.findViewById<Button>(R.id.add_contact_button)
-        val cancelButton = dialog.findViewById<Button>(R.id.cancel_button)
-
-        val nameField = dialog.findViewById<EditText>(R.id.edit_contact_name)
-        val emailField = dialog.findViewById<EditText>(R.id.edit_contact_email)
-        val phoneField = dialog.findViewById<EditText>(R.id.edit_contact_phone)
 
         if (contact != null) {
-            dialog.findViewById<TextView>(R.id.contact_dialog_title).text = "Edit Contact"
-            dialog.findViewById<TextView>(R.id.add_contact_button).text = "Save"
+            binding.contactDialogTitle.text = "Edit Contact"
+            binding.addContactButton.text = "Save"
 
-            nameField.setText(contact.name)
-            emailField.setText(contact.email)
-            phoneField.setText(contact.phone)
+            binding.contact = contact
         }
 
-        addButton.setOnClickListener {
-            val name = nameField.text.toString().trim()
-            val email = emailField.text.toString().trim()
-            val phone = phoneField.text.toString().trim()
+        binding.addContactButton.setOnClickListener {
+            val name = binding.editContactName.text.toString().trim()
+            val email = binding.editContactEmail.text.toString().trim()
+            val phone = binding.editContactPhone.text.toString().trim()
 
             if (name.isNotEmpty() && phone.isNotEmpty()) {
                 if (contact == null) {
@@ -87,7 +79,7 @@ class ContactViewModel(private val repository: ContactRepositoryImplementation) 
             dialog.dismiss()
         }
 
-        cancelButton.setOnClickListener {
+        binding.cancelButton.setOnClickListener {
             dialog.dismiss()
         }
 
