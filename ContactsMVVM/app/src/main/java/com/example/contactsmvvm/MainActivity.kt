@@ -60,6 +60,9 @@ class MainActivity : AppCompatActivity(), ContactRVAdapter.ContactItemClick,
             contactRVAdapter.notifyDataSetChanged()
         })
 
+
+        contactViewModel.addContact()
+
         ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
                 0,
