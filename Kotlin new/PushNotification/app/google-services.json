@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1019062620302",
+    "project_id": "push-notification-41195",
+    "storage_bucket": "push-notification-41195.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1019062620302:android:9b3724d5c0c86c35d639df",
+        "android_client_info": {
+          "package_name": "com.senya.pushnotification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1019062620302-rtcbif2ruf4r6isbr7qimaubok7b92me.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzVh3Qf_GecEmX0GmdYdUsAvnkLJbxAkg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1019062620302-rtcbif2ruf4r6isbr7qimaubok7b92me.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
